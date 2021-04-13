@@ -167,3 +167,59 @@ ax2.set_title("PACF Differentiated Data")
 plt.tight_layout()
 plt.show()
 
+# Separate training/test data and returning the data to Dataframe type
+# Logged Data
+ts_log_pd = pd.DataFrame(ts_log)
+X = ts_log_pd
+train = X.iloc[0:272]
+test = X.iloc[-117:]
+
+# Differentiated Data
+ts_diff_pd = pd.DataFrame(ts_log_shift)
+D = ts_diff_pd
+train_shift = D.iloc[0:272]
+test_shift = D.iloc[-117:]
+
+# Original Data
+ts_pd = pd.DataFrame(ts)
+Z = ts_pd
+train_ts = Z.iloc[0:272]
+test_ts = Z.iloc[-117:]
+
+# ARIMA Model
+model = ARIMA(train, order=(10,1,2))
+results = model.fit(disp=-1)
+plt.figure(figsize=(18,7))
+plt.title('ARIMA Model (10,1,2)')
+plt.plot(train_shift)
+plt.plot(results.fittedvalues, color='red')
+plt.show()
+
+print(results.summary())
+
+predictions_ARIMA_diff = pd.Series(results.fittedvalues, copy=True)
+predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
+predictions_ARIMA_log = pd.Series(train['Cases'].iloc[0], index=train.index)
+predictions_ARIMA_log = (predictions_ARIMA_log).add(predictions_ARIMA_diff_cumsum, fill_value=0)
+predictions_ARIMA = np.exp(predictions_ARIMA_log)
+
+plt.figure(figsize=(18,7))
+plt.title('Training Predictions ARIMA')
+plt.plot(train_ts, color='blue')
+plt.plot(predictions_ARIMA, color='red')
+plt.show()
+
+fig, ax = plt.subplots(figsize=(18,7))
+plt.title('Plot Predict')
+results.plot_predict(start=1, end=60, dynamic=False, ax=ax)
+plt.show()
+
+model2 = ARIMA(train, order=(2,1,2))
+results2 = model2.fit(disp=-1)
+plt.figure(figsize=(18,7))
+plt.title('ARIMA Model (2,1,2)')
+plt.plot(train_shift)
+plt.plot(results2.fittedvalues, color='red')
+plt.show()
+
+print(results2.summary())
