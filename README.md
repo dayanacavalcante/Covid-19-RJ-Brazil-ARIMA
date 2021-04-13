@@ -1,10 +1,10 @@
 # Covid-19 Rio de Janeiro, Brazil
 
-###_Case Study_
+### _Case Study_
 
 Apply stationarity transformations to Covid-19 data in Rio de Janeiro, Brazil, and use Autoregressive Integrated Moving Average (ARIMA).
 
-###_Preprocessing_
+### _Preprocessing_
 
 The data used include the period of _2020-01-13_ to _2021-03-23_.
 ```
