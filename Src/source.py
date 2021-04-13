@@ -12,7 +12,8 @@ from matplotlib.pylab import rcParams
 import warnings
 warnings.filterwarnings('ignore')
 from numpy import sqrt
-from sklearn.metrics import mean_squared_error           
+from sklearn.metrics import mean_squared_error  
+     
 
 # Load Data
 series = pd.read_csv('C:\\Users\\RenanSardinha\\Documents\\Data Science\\Covid-19_RJ_Brasil\\Data\\db_PainelRioCovid.csv')
@@ -40,9 +41,9 @@ plt.plot(ts)
 
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
-plt.xlabel('Date', fontsize=22)
-plt.ylabel('Number of Cases', fontsize=22)
-plt.title('Number of Covid-19 cases in RJ, 2020-01-13 - 2021-03-23', fontsize=22)
+plt.xlabel('Date', fontsize=19)
+plt.ylabel('Number of Cases', fontsize=19)
+plt.title('Number of Covid-19 cases in RJ, 2020-01-13 - 2021-03-23', fontsize=19)
 plt.show()
 
 # Seasonal Decompose
@@ -223,3 +224,67 @@ plt.plot(results2.fittedvalues, color='red')
 plt.show()
 
 print(results2.summary())
+
+"""
+# walk-forward validation
+data = ts.values
+size = int(len(data) * 0.7)
+train1, test1 = data[0:size], data[size:len(data)]
+history = [x for x in train1]
+predictions = list()
+
+for t in range(len(test1)):
+
+	model3 = ARIMA(history, order=(10,1,2))
+	model_fit = model3.fit(disp=-1)
+	output = model_fit.forecast()
+	yhat = output[0]
+	predictions.append(yhat)
+	obs = test1[t]
+	history.append(obs)
+	print('predicted=%.1f, expected=%.1f' % (yhat, obs))
+
+# Plot Forecasts against actual outcomes
+plt.figure(figsize=(18,7))
+plt.title('Predictions Walk-Forward Validation')
+plt.plot(test1)
+plt.plot(predictions, color='red')
+plt.show()
+
+print(model_fit.summary())
+
+# Evaluate Forecasts
+rmse = sqrt(mean_squared_error(test1, predictions))
+print('Test RMSE: %.3f' % rmse)
+"""
+
+# Load New Data
+new = pd.read_csv('C:\\Users\\RenanSardinha\\Documents\\Data Science\\Covid-19_RJ_Brasil\\Data\\new_data_2021_04_13\\db_PainelRioCovid (1).csv')
+print(new)
+
+# Preprocessing New Data
+new['dt_notific'] = pd.to_datetime(new['dt_notific'])
+print(new)
+
+df_new = new.groupby('dt_notific').dt_notific.count()
+df_new = pd.DataFrame(df_new)
+df_new.index = pd.to_datetime(df_new.index)
+df_new.index.names = ['Date']
+df_new.rename(columns={'dt_notific': 'Cases'}, inplace = True)
+print(df_new)
+
+print(df_new.iloc[[0,-1]])
+
+ts_new = df_new['Cases']
+print(ts_new.head(10))
+
+# Cases Plot New Data
+plt.figure(figsize=(18,7))
+plt.plot(ts_new)
+
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.xlabel('Date', fontsize=19)
+plt.ylabel('Number of Cases', fontsize=19)
+plt.title('Number of Covid-19 cases in RJ, 2020-01-13 - 2021-04-11', fontsize=19)
+plt.show()
