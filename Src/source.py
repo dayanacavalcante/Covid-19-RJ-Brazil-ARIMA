@@ -11,10 +11,7 @@ from statsmodels.tsa.arima_model import ARIMA
 from matplotlib.pylab import rcParams
 import warnings
 warnings.filterwarnings('ignore')
-from numpy import sqrt
-from sklearn.metrics import mean_squared_error  
-     
-
+  
 # Load Data
 series = pd.read_csv('C:\\Users\\RenanSardinha\\Documents\\Data Science\\Covid-19_RJ_Brasil\\Data\\db_PainelRioCovid.csv')
 print(series)
@@ -35,15 +32,16 @@ print(df.iloc[[0,-1]])
 ts = df['Cases']
 print(ts.head(10))
 
-# Cases Plot
+# Moving Average Plot
 plt.figure(figsize=(18,7))
-plt.plot(ts)
+ma = ts.rolling(7).mean()
+plt.plot(ma)
 
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
 plt.xlabel('Date', fontsize=19)
 plt.ylabel('Number of Cases', fontsize=19)
-plt.title('Number of Covid-19 cases in RJ, 2020-01-13 - 2021-03-23', fontsize=19)
+plt.title('Moving Average of Covid-19 cases in Rio de Janeiro, 2020-01-13 - 2021-03-23', fontsize=19)
 plt.show()
 
 # Seasonal Decompose
@@ -233,13 +231,14 @@ print(df_new.iloc[[0,-1]])
 ts_new = df_new['Cases']
 print(ts_new.head(10))
 
-# Cases Plot New Data
+# Moving Average Plot New Data
 plt.figure(figsize=(18,7))
-plt.plot(ts_new)
+mov_avg = ts_new.rolling(7).mean()
+plt.plot(mov_avg)
 
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
 plt.xlabel('Date', fontsize=19)
 plt.ylabel('Number of Cases', fontsize=19)
-plt.title('Number of Covid-19 cases in RJ, 2020-01-13 - 2021-04-11', fontsize=19)
+plt.title('Moving Average of Covid-19 cases in Rio de Janeiro, 2020-01-13 - 2021-04-11', fontsize=19)
 plt.show()

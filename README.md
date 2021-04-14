@@ -2,11 +2,11 @@
 
 ### _Case Study_
 
-Apply stationarity transformations to Covid-19 data in Rio de Janeiro, Brazil, and use Autoregressive Integrated Moving Average (ARIMA).
+Application of stationarity transformations and Autoregressive Integrated Moving Average (ARIMA) in Covid-19 data from Rio de Janeiro, Brazil.
 
 ### _Preprocessing_
 
-The data used include the period of _2020-01-13_ to _2021-03-23_.
+The data used include the period of 2020-01-13 to 2021-03-23.
 ```
        classificação_final dt_notific dt_inicio_sintomas bairro_resid_estadia  ... dt_evolucao  raca_cor Data_atualizacao sistema
 0               CONFIRMADO 2020-09-18           9/3/2020            PACIENCIA  ...   9/22/2020     Preta        3/24/2021   SIVEP 
@@ -23,7 +23,7 @@ The data used include the period of _2020-01-13_ to _2021-03-23_.
 
 [220547 rows x 12 columns]
 ```
-![](/Charts/CasesPlot.png)
+![](/Charts/MovingAverageCases.png)
 
 - Decomposing the Time Series data: with the _seasonal_decompose_ function, the series is broken down into trend, seasonality and residuals. It shows us a downward trend towards the end of the series. It is not seasonal. It presents a larger residual variation at the beginning of the year 2021.
 
@@ -50,7 +50,7 @@ Understanding results of Dickey-Fuller Test:
 - If the _p-value_ is below 5%: is stationary;
 - If the Test Statistic is below any critical value: is stationary;
 
-If the p value is high, it can indicate the presence of certain trends (variable average) or also seasonality, which is not the case. Despite rejecting H0, I worked on transforming the series into stationary, first analyzing the trend.
+In addition if the p value is high, it can indicate the presence of certain trends (variable average) or also seasonality, which is not the case. Despite rejecting H0, I worked on transforming the series into stationary, first analyzing the trend.
 
 ### _Transforms used for stationarizing data_
 
@@ -126,13 +126,19 @@ dtype: float64
 
 ### _Auto-Correlation Function (ACF) and Partial Auto-Correlation Function (PACF)_
 
-With the ACF and PACF charts, it is possible to verify the values that will be used for the terms of the ARIMA model. You can see that the original data is not stationary and I transformed the data into stationary with differentiation.
+With the ACF and PACF charts, it is possible to verify the values that will be used for the terms of the ARIMA Model. You can see that the original data is not stationary and I transformed the data into stationary with differentiation.
 
 ![](/Charts/ACF.png)
 
 ![](/Charts/PACF.png)
 
-### _ARIMA Model_
+### _Autoregressive Integrated Moving Average (ARIMA)_
+
+This model is the combination of autoregression, a moving average model and differencing. ARIMA (p, d, q) contains three parameters:
+
+- p: the order of the autoregressive process;
+- d: the degree of differentiation;
+- q: the order of the moving average process;
 
 ![](/Charts/ARIMA_Model(10,1,2).png)
 ```
@@ -211,6 +217,14 @@ MA.2            0.9294           +0.5791j            1.0951            0.0887
 -----------------------------------------------------------------------------
 ```
 With the ARIMA Model Results (2,1,2) it had a higher AIC value than the ARIMA Model Results (10,1,2) I did not make the predictions with this model.
+
+With the function _plot_predict_ referring to the ARIMA Model (10, 1, 2), it indicates an increasing trend in cases over time.
+
+![](/Charts/Plot_Predict.png)
+
+The data used were up to 2021-03-23. Below is the chart with the Moving Average of the cases until the day 2021-04-11 indicating a decrease in the Moving Average. In contrast to the Plot Predict chart.
+
+![](/Charts/MovingAverageNewCases.png)
 
 #### _Data used in the study_
 
