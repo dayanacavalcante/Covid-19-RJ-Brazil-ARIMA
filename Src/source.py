@@ -198,21 +198,9 @@ plt.show()
 
 print(results.summary())
 
-predictions_ARIMA_diff = pd.Series(results.fittedvalues, copy=True)
-predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
-predictions_ARIMA_log = pd.Series(train['Cases'].iloc[0], index=train.index)
-predictions_ARIMA_log = (predictions_ARIMA_log).add(predictions_ARIMA_diff_cumsum, fill_value=0)
-predictions_ARIMA = np.exp(predictions_ARIMA_log)
-
-plt.figure(figsize=(18,7))
-plt.title('Training Predictions ARIMA')
-plt.plot(train_ts, color='blue')
-plt.plot(predictions_ARIMA, color='red')
-plt.show()
-
 fig, ax = plt.subplots(figsize=(18,7))
 plt.title('Plot Predict')
-results.plot_predict(start=1, end=60, dynamic=False, ax=ax)
+results.plot_predict(start=117, end=410, dynamic=False, ax=ax)
 plt.show()
 
 model2 = ARIMA(train, order=(2,1,2))
@@ -224,39 +212,6 @@ plt.plot(results2.fittedvalues, color='red')
 plt.show()
 
 print(results2.summary())
-
-"""
-# walk-forward validation
-data = ts.values
-size = int(len(data) * 0.7)
-train1, test1 = data[0:size], data[size:len(data)]
-history = [x for x in train1]
-predictions = list()
-
-for t in range(len(test1)):
-
-	model3 = ARIMA(history, order=(10,1,2))
-	model_fit = model3.fit(disp=-1)
-	output = model_fit.forecast()
-	yhat = output[0]
-	predictions.append(yhat)
-	obs = test1[t]
-	history.append(obs)
-	print('predicted=%.1f, expected=%.1f' % (yhat, obs))
-
-# Plot Forecasts against actual outcomes
-plt.figure(figsize=(18,7))
-plt.title('Predictions Walk-Forward Validation')
-plt.plot(test1)
-plt.plot(predictions, color='red')
-plt.show()
-
-print(model_fit.summary())
-
-# Evaluate Forecasts
-rmse = sqrt(mean_squared_error(test1, predictions))
-print('Test RMSE: %.3f' % rmse)
-"""
 
 # Load New Data
 new = pd.read_csv('C:\\Users\\RenanSardinha\\Documents\\Data Science\\Covid-19_RJ_Brasil\\Data\\new_data_2021_04_13\\db_PainelRioCovid (1).csv')
