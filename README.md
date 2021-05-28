@@ -226,7 +226,8 @@ The data used were up to 2021-03-23. Below is the chart with the Moving Average 
 
 ![](/Charts/MovingAverageNewCases.png)
 
-But it is worth mentioning that there is a long delay in processing and disclosing cases in Rio de Janeiro.
+But it is worth mentioning that there is a long delay in processing and disclosing cases in Rio de Janeiro. In Brazil, in general, the results of the exams can take up to 14 days. In addition, if the person dies before the test result comes out, that person is not counted as a case or death from SARS-CoV-2.
+
 #### _Data used in the study_
 
 The data were taken from the site: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
