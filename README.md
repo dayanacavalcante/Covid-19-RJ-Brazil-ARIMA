@@ -222,10 +222,11 @@ With the function _plot_predict_ referring to the ARIMA Model (10, 1, 2), it ind
 
 ![](/Charts/Plot_Predict.png)
 
-The data used were up to 2021-03-23. Below is the chart with the Moving Average of the cases until the day 2021-04-11 indicating a decrease in the Moving Average. In contrast to the Plot Predict chart.
+The data used were up to 2021-03-23. Below is the chart with the Moving Average of the cases until the day 2021-04-11 indicating a decrease in the Moving Average, in contrast to the Plot Predict chart. 
 
 ![](/Charts/MovingAverageNewCases.png)
 
+But it is worth mentioning that there is a long delay in processing and disclosing cases in Rio de Janeiro.
 #### _Data used in the study_
 
 The data were taken from the site: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
